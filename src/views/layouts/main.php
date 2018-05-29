@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use vendor\almasaeed2010\adminlte\pages;
-use frontend\modules\login\LoginAsset;
+use TBI\Login\LoginAsset;
 $assets = LoginAsset::register($this); 
 /* @var $this \yii\web\View */
 /* @var $content string */

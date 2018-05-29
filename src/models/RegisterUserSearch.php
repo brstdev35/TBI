@@ -5,7 +5,7 @@ namespace TBI\Login\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use TBI\Login\RegisterUser;
+use TBI\Login\models\RegisterUser;
 
 /**
  * RegisterUserSearch represents the model behind the search form about `frontend\modules\login\models\RegisterUser`.

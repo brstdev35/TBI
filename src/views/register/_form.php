@@ -19,21 +19,21 @@ use yii\bootstrap\ActiveForm;
                                 'options' => ['enctype' => 'multipart/form-data']]);
                     ?> 
                     <?=
-                    $form->field($model, 'firstname')->label('First Name' . Html::tag('span', '*', ['class' => 'required']));
+                    $form->field($model, 'firstname')->label('First Name');
                     ?>
                     <?=
                     $form->field($model, 'lastname');
                     ?>
                     <?=
-                    $form->field($model, 'email')->textInput(['readonly' => $model->isNewRecord ? false : true])->label('Email Address' . Html::tag('span', '*', ['class' => 'required']));
+                    $form->field($model, 'email')->textInput(['readonly' => $model->isNewRecord ? false : true])->label('Email Address');
                     ?>
                     <?=
-                    $form->field($model, 'password')->passwordInput(['value' => ''])->label('Password' . Html::tag('span', '*', ['class' => 'required']));
+                    $form->field($model, 'password')->passwordInput(['value' => ''])->label('Password');
                     ?>
                     <?=
-                    $form->field($model, 'confirm_password')->passwordInput(['value' => ''])->label('Confirm Password' . Html::tag('span', '*', ['class' => 'required']));
+                    $form->field($model, 'confirm_password')->passwordInput(['value' => ''])->label('Confirm Password');
                     ?>
-                    <?= $form->field($model, 'status')->radioList(array(1 => 'Active', 0 => 'Inactive'))->label('Status' . Html::tag('span', '*', ['class' => 'required'])); ?>
+                    <?= $form->field($model, 'status')->radioList(array(1 => 'Active', 0 => 'Inactive'))->label('Status'); ?>
                     <?php
                     if ((!empty($model->profile_pic))) {
                         $imgcheck = 1;

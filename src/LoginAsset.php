@@ -12,7 +12,7 @@ class LoginAsset extends AssetBundle
 	/**
 	 * @inheritdoc
 	 */
-	public $sourcePath = '@frontend/modules/login/web';
+	public $sourcePath = '@TBI/Login/web';
 
     public $css = [
         'css/images.css',
