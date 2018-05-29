@@ -20,6 +20,7 @@ use Yii;
  */
 class RegisterUser extends \yii\db\ActiveRecord {
 
+    public $confirm_password;
     /**
      * @inheritdoc
      */
@@ -32,8 +33,20 @@ class RegisterUser extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['status', 'created', 'updated'], 'integer'],
-            [['firstname', 'lastname', 'email', 'password', 'access_token', 'profile_pic'], 'string', 'max' => 255],
+            [['email', 'password', 'confirm_password', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state'], 'required', 'on' => 'user_signup'],
+            [['created', 'updated'], 'integer'],
+            [['email'], 'email'],
+            [['email'], 'unique'],
+            ['password', 'string', 'min' => 6],
+            ['confirm_password', 'compare', 'compareAttribute' => 'password', 'message' => "Passwords don't match"],
+            [['firstname', 'lastname', 'email', 'access_token', 'profile_pic'], 'string', 'max' => 255],
+            [['email', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state'], 'required', 'on' => 'user_update'],
+            ['confirm_password', 'required', 'when' => function ($model) {
+                    return $model->password !== '';
+                }, 'whenClient' => "function (attribute, value) {
+                return $('#registeruser-password').val() !== '';
+                }",
+                'on' => 'user_update'],
         ];
     }
 
@@ -53,6 +66,10 @@ class RegisterUser extends \yii\db\ActiveRecord {
             'created' => 'Created',
             'updated' => 'Updated',
         ];
+    }
+
+    public function setPassword($password) {
+        $this->password = Yii::$app->security->generatePasswordHash($password);
     }
 
 }

@@ -78,6 +78,7 @@ class RegisterController extends Controller {
             $model->setPassword($model->password);
             $model->created = time();
             $model->updated = time();
+            $model->username = ucfirst($model->firstname) . ' ' . ucfirst($model->lastname);
            // echo '<pre>';print_r($model);die;
             if ($model->save(false)) {
                 Yii::$app->session->setFlash('created', 'User ' . ucfirst($model->firstname) . ' ' . ucfirst($model->lastname) . ' has been Created Successfully!');
@@ -127,6 +128,7 @@ class RegisterController extends Controller {
             else: //Password updated Case
                 $model->setPassword($postedData['RegisterUser']['password']);
             endif;
+            $model->username = ucfirst($model->firstname) . ' ' . ucfirst($model->lastname);
             $model->updated = time();
             if ($model->save(false)) {
                 Yii::$app->session->setFlash('created', 'User ' . ucfirst($model->firstname) . ' ' . ucfirst($model->lastname) . ' has been updated Successfully!');

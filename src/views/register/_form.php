@@ -25,7 +25,7 @@ use yii\bootstrap\ActiveForm;
                     $form->field($model, 'lastname');
                     ?>
                     <?=
-                    $form->field($model, 'email')->textInput(['readonly' => $model->isNewRecord ? false : true])->label('Email Address');
+                    $form->field($model, 'email')->textInput()->label('Email Address');
                     ?>
                     <?=
                     $form->field($model, 'password')->passwordInput(['value' => ''])->label('Password');
