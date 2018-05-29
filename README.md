@@ -7,7 +7,7 @@ Before installing this extension ,please install admin lte through composer
 Either run:
 
 ```bash
-composer require dmstr/yii2-adminlte-asset "^2.*"
+composer require dmstr/yii2-adminlte-asset "2.*"
 ```
 
 or add
