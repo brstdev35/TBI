@@ -8,6 +8,7 @@ use TBI\Login\models\StateSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
 
 /**
  * StateController implements the CRUD actions for State model.
@@ -67,9 +68,18 @@ class StateController extends Controller
     {
         $this->layout = 'main';
         $model = new State();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->scenario = 'create';
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) :
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        endif;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created = time();
+            $model->updated = time();
+            if ($model->save(false)) {
+                Yii::$app->session->setFlash('created', 'State has been added Successfully!');
+                return $this->redirect('index');
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -87,9 +97,17 @@ class StateController extends Controller
     {
         $this->layout = 'main';
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->scenario = 'update';
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) :
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        endif;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated = time();
+            if ($model->save(false)) {
+                Yii::$app->session->setFlash('updated', 'State has been Updated Successfully!');
+                return $this->redirect('index');
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,

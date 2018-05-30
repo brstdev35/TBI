@@ -18,7 +18,7 @@ class CitySearch extends City
     public function rules()
     {
         return [
-            [['id', 'state_id', 'created', 'updated'], 'integer'],
+            [['id', 'state_id','country_id', 'created', 'updated'], 'integer'],
             [['cityname'], 'safe'],
         ];
     }

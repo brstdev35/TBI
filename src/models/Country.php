@@ -26,6 +26,9 @@ class Country extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
+            [['countryname'], 'required'],
+            [['countryname'], 'valdateCountry','on'=>'create'],
+            [['countryname'], 'valdateupdateCountry','on'=>'update'],
             [['created', 'updated'], 'integer'],
             [['countryname'], 'string', 'max' => 255],
         ];
@@ -41,6 +44,22 @@ class Country extends \yii\db\ActiveRecord {
             'created' => 'Created',
             'updated' => 'Updated',
         ];
+    }
+
+    public function valdateCountry($attribute, $params, $validator) {
+        $country = trim($this->$attribute, ' ');
+        $check = Country::find()->where(['countryname' => $country])->all();
+        if (!empty($check)) {
+            $this->addError($attribute, 'Country already Exists.');
+        }
+    }
+    public function valdateupdateCountry($attribute, $params, $validator) {
+        $id = $_GET['id'];
+        $country = trim($this->$attribute, ' ');
+        $check = Country::find()->where(['countryname' => $country])->andWhere(['!=','id',$id])->all();
+        if (!empty($check)) {
+            $this->addError($attribute, 'Country already Exists.');
+        }
     }
 
 }

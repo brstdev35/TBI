@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-6 grid_user grid_verical">
         <div class="box box-warning">
             <div class="box-header">
-                <h3 class="box-title">User Listing</h3>
+                <h3 class="box-title">Roles</h3>
                 <?= Html::a('Add Role<i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-default pull-right']) ?>
             </div>
             <?=
@@ -51,11 +51,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'raw',
                         'headerOptions' => ['width' => '150'],
                         'value' => function ($model) {
-                            if ($model->role == 1):
-                                return 'Admin';
-                            elseif ($model->role == 2):
-                                return 'Manager';
-                            endif;
+                            return $model->role;
+                        },
+                    ],
+                    [
+                         'label' => 'Updated',
+                        'format' => 'raw',
+                        'headerOptions' => ['width' => '150'],
+                        'value' => function ($model) {
+                            return date("F j, Y, g:i a",$model->updated); 
                         },
                     ],
                     ['class' => 'yii\grid\ActionColumn'],
@@ -66,8 +70,3 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-<style>
-    .summary {
-        display: none;
-    }
-</style>

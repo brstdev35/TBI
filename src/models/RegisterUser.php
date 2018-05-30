@@ -3,6 +3,7 @@
 namespace TBI\Login\models;
 
 use Yii;
+use yii\validators\EmailValidator;
 
 /**
  * This is the model class for table "register_user".
@@ -33,10 +34,10 @@ class RegisterUser extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['email', 'password', 'confirm_password', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state'], 'required', 'on' => 'user_signup'],
+            [['email', 'password', 'confirm_password', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state','role'], 'required', 'on' => 'user_signup'],
             [['created', 'updated'], 'integer'],
-            [['email'], 'email'],
-            [['email'], 'unique'],
+            [['email'], 'validateEmail', 'on' => 'user_signup'],
+            [['email'], 'validateupdateEmail', 'on' => 'user_update'],
             ['password', 'string', 'min' => 6],
             ['confirm_password', 'compare', 'compareAttribute' => 'password', 'message' => "Passwords don't match"],
             [['firstname', 'lastname', 'email', 'access_token', 'profile_pic'], 'string', 'max' => 255],
@@ -65,11 +66,39 @@ class RegisterUser extends \yii\db\ActiveRecord {
             'status' => 'Status',
             'created' => 'Created',
             'updated' => 'Updated',
+            'country' => 'Country',
+            'state' => 'State',
+            'city' => 'City',
         ];
     }
 
     public function setPassword($password) {
         $this->password = Yii::$app->security->generatePasswordHash($password);
+    }
+    
+    public function validateEmail($attribute, $params, $validator) {
+        $email = trim($this->$attribute, ' ');
+        $validator = new EmailValidator();
+        if (!($validator->validate($email, $error))) {
+            $this->addError($attribute, 'Email is not a valid email address.');
+        }
+        $email1 = RegisterUser::find()->where(['email' => $email])->all();
+        if (!empty($email1)) {
+            $this->addError($attribute, 'This email address is already registered.');
+        }
+    }
+    
+    public function validateupdateEmail($attribute, $params, $validator) {
+        $id =$_GET['id'];
+        $email = trim($this->$attribute, ' ');
+        $validator = new EmailValidator();
+        if (!($validator->validate($email, $error))) {
+            $this->addError($attribute, 'Email is not a valid email address.');
+        }
+        $email1 = RegisterUser::find()->where(['email' => $email])->andWhere(['!=','id',$id])->all();
+        if (!empty($email1)) {
+            $this->addError($attribute, 'This email address is already registered.');
+        }
     }
 
 }

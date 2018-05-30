@@ -18,7 +18,7 @@ class RegisterUserSearch extends RegisterUser
     public function rules()
     {
         return [
-            [['id', 'status', 'created', 'updated'], 'integer'],
+            [['id', 'status', 'created', 'updated', 'country', 'state', 'city'], 'integer'],
             [['firstname', 'lastname', 'email','status'], 'safe'],
         ];
     }

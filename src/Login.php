@@ -30,6 +30,11 @@ class Login extends \yii\base\Module {
      */
     public function init() {
         parent::init();
+        if (!file_exists('profile_pic')) {
+            if (!mkdir('profile_pic', 0777, true)) {
+                die('Failed to create folders...');
+            }
+        }
         if (!isset($this->templates['default'])) {
             $this->templates['default'] = $this->defaultTemplate();
         }
@@ -110,6 +115,7 @@ class Login extends \yii\base\Module {
                     ->createTable(
                             $this->city, array(
                         'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY',
+                        'country_id' => 'int(11) unsigned DEFAULT NULL',
                         'state_id' => 'int(11) unsigned DEFAULT NULL',
                         'cityname' => 'varchar(255) DEFAULT NULL',
                         'created' => 'int(11) unsigned DEFAULT NULL',

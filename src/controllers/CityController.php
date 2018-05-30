@@ -4,6 +4,7 @@ namespace TBI\Login\controllers;
 
 use Yii;
 use TBI\Login\models\City;
+use TBI\Login\models\State;
 use TBI\Login\models\CitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,13 +13,12 @@ use yii\filters\VerbFilter;
 /**
  * CityController implements the CRUD actions for City model.
  */
-class CityController extends Controller
-{
+class CityController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,15 +33,14 @@ class CityController extends Controller
      * Lists all City models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $this->layout = 'main';
         $searchModel = new CitySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -50,11 +49,10 @@ class CityController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         $this->layout = 'main';
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -63,16 +61,20 @@ class CityController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $this->layout = 'main';
         $model = new City();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created = time();
+            $model->updated = time();
+            if ($model->save(false)) {
+                Yii::$app->session->setFlash('created', 'City has been added Successfully!');
+                return $this->redirect('index');
+            }
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -83,16 +85,19 @@ class CityController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $this->layout = 'main';
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated = time();
+            if ($model->save(false)) {
+                Yii::$app->session->setFlash('updated', 'City has been Updated Successfully!');
+                return $this->redirect('index');
+            }
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -103,8 +108,7 @@ class CityController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->layout = 'main';
         $this->findModel($id)->delete();
 
@@ -118,12 +122,24 @@ class CityController extends Controller
      * @return City the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = City::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionGetstates($id) {
+        $html = '';
+        $states = State::find()->where(['country_id' => $id])->all();
+        $html .= '<option value="">Select State</option>';
+        if (!empty($states)):
+            foreach ($states as $state) {
+                $html .= '<option value="' . $state->id . '">' . $state->statename . '</option>';
+            }
+        endif;
+        return $html;
+    }
+
 }

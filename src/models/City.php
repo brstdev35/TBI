@@ -27,7 +27,8 @@ class City extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['state_id', 'created', 'updated'], 'integer'],
+            [['country_id','state_id','cityname'],'required'],
+            [['country_id','state_id', 'created', 'updated'], 'integer'],
             [['cityname'], 'string', 'max' => 255],
         ];
     }
@@ -38,7 +39,8 @@ class City extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'state_id' => 'State ID',
+            'state_id' => 'State Name',
+            'country_id' => 'Country Name',
             'cityname' => 'Cityname',
             'created' => 'Created',
             'updated' => 'Updated',

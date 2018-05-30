@@ -8,6 +8,7 @@ use TBI\Login\models\RoleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
 
 /**
  * RoleController implements the CRUD actions for Role model.
@@ -63,7 +64,11 @@ class RoleController extends Controller {
     public function actionCreate() {
         $this->layout = 'main';
         $model = new Role();
-
+        $model->scenario = 'create';
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) :
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        endif;
         if ($model->load(Yii::$app->request->post())) {
              $model->created = time();
              $model->updated = time();
@@ -87,6 +92,11 @@ class RoleController extends Controller {
     public function actionUpdate($id) {
         $this->layout = 'main';
         $model = $this->findModel($id);
+        $model->scenario = 'update';
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) :
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        endif;
 
         if ($model->load(Yii::$app->request->post())) {
             $model->updated = time();

@@ -8,17 +8,17 @@ use TBI\Login\models\CountrySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
 
 /**
  * CountryController implements the CRUD actions for Country model.
  */
-class CountryController extends Controller
-{
+class CountryController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,15 +33,14 @@ class CountryController extends Controller
      * Lists all Country models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $this->layout = 'main';
         $searchModel = new CountrySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -50,11 +49,10 @@ class CountryController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         $this->layout = 'main';
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -63,16 +61,24 @@ class CountryController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $this->layout = 'main';
         $model = new Country();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->scenario = 'create';
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) :
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        endif;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created = time();
+            $model->updated = time();
+            if ($model->save(false)) {
+                Yii::$app->session->setFlash('created', 'Country has been added Successfully!');
+                return $this->redirect('index');
+            }
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -83,16 +89,23 @@ class CountryController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $this->layout = 'main';
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->scenario = 'update';
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) :
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        endif;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated = time();
+            if ($model->save(false)) {
+                Yii::$app->session->setFlash('updated', 'Country has been Updated Successfully!');
+                return $this->redirect('index');
+            }
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -103,8 +116,7 @@ class CountryController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->layout = 'main';
         $this->findModel($id)->delete();
 
@@ -118,12 +130,12 @@ class CountryController extends Controller
      * @return Country the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Country::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

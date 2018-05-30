@@ -26,7 +26,11 @@ class Role extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
+            [['role'],'required'],
+            [['role'], 'valdateRole','on'=>'create'],
+            [['role'], 'valdateupdateRole','on'=>'update'],
             [['created', 'updated'], 'integer'],
+            [['role'],'unique'],
             [['role'], 'string', 'max' => 255],
         ];
     }
@@ -42,6 +46,20 @@ class Role extends \yii\db\ActiveRecord {
             'updated' => 'Updated',
         ];
     }
-
+    public function valdateRole($attribute, $params, $validator) {
+        $role = trim($this->$attribute, ' ');
+        $check = Role::find()->where(['role' => $role])->all();
+        if (!empty($check)) {
+            $this->addError($attribute, 'Role already Exists.');
+        }
+    }
+    public function valdateupdateRole($attribute, $params, $validator) {
+        $id = $_GET['id'];
+        $role = trim($this->$attribute, ' ');
+        $check = Role::find()->where(['role' => $role])->andWhere(['!=','id',$id])->all();
+        if (!empty($check)) {
+            $this->addError($attribute, 'Role already Exists.');
+        }
+    }
 
 }
