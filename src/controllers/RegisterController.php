@@ -74,7 +74,27 @@ class RegisterController extends Controller {
         endif;
         if (Yii::$app->request->post()) {
             $model->load(\Yii::$app->request->post());
-            $model->profile_pic = $_POST['profile_pic'];
+            $model->email = trim($model->email, ' ');
+            if (!empty($_POST['profile_pic'])):
+                $model->profile_pic = $_POST['profile_pic'];
+            elseif (!empty($_POST['extension'])):
+                $cnvimg1 = $_POST['extension'];
+                if (strpos($cnvimg1, 'image/png') !== false) {
+                    $cnvimg1 = str_replace('data:image/png;base64,', '', $cnvimg1);
+                    $cnvimg1 = str_replace(' ', '+', $cnvimg1);
+                    $data1 = base64_decode($cnvimg1);
+                    $file1 = time() . '.png';
+                }
+                if (strpos($cnvimg1, 'image/jpeg') !== false) {
+                    $cnvimg1 = str_replace('data:image/jpeg;base64,', '', $cnvimg1);
+                    $cnvimg1 = str_replace(' ', '+', $cnvimg1);
+                    $data1 = base64_decode($cnvimg1);
+                    $file1 = time() . '.jpeg';
+                }
+                $location1 = getcwd() . '/profile_pic';
+                $success = file_put_contents($location1 . '/' . $file1, $data1);
+                $model->profile_pic = $file1;
+            endif;
 //            if ($profile_pic) {
 //                $profile_pic = UploadedFile::getInstance($model, 'profile_pic');
 //                $model->profile_pic = time() . '_' . $profile_pic->name;
@@ -115,8 +135,28 @@ class RegisterController extends Controller {
             return ActiveForm::validate($model);
         endif;
         if ($model->load(Yii::$app->request->post())) {
+            $model->email = trim($model->email, ' ');
             $postedData = Yii::$app->request->post();
-            $model->profile_pic = $_POST['profile_pic'];
+            if (!empty($_POST['profile_pic'])):
+                $model->profile_pic = $_POST['profile_pic'];
+            elseif (!empty($_POST['extension'])):
+                $cnvimg1 = $_POST['extension'];
+                if (strpos($cnvimg1, 'image/png') !== false) {
+                    $cnvimg1 = str_replace('data:image/png;base64,', '', $cnvimg1);
+                    $cnvimg1 = str_replace(' ', '+', $cnvimg1);
+                    $data1 = base64_decode($cnvimg1);
+                    $file1 = time() . '.png';
+                }
+                if (strpos($cnvimg1, 'image/jpeg') !== false) {
+                    $cnvimg1 = str_replace('data:image/jpeg;base64,', '', $cnvimg1);
+                    $cnvimg1 = str_replace(' ', '+', $cnvimg1);
+                    $data1 = base64_decode($cnvimg1);
+                    $file1 = time() . '.jpeg';
+                }
+                $location1 = getcwd() . '/profile_pic';
+                $success = file_put_contents($location1 . '/' . $file1, $data1);
+                $model->profile_pic = $file1;
+            endif;
 //            $profile_pic = UploadedFile::getInstance($model, 'profile_pic');
 //            if ($profile_pic) {
 //                $profile_pic = UploadedFile::getInstance($model, 'profile_pic');
@@ -223,7 +263,7 @@ class RegisterController extends Controller {
         $jpeg_quality = 90;
         $extension = strtolower(substr($file1, strpos($file1, '.') + 1));
         if ($extension == 'jpg' || $extension == 'jpeg') {
-            $img_r = imagecreatefromjpeg('profile_pic/' .$file1);
+            $img_r = imagecreatefromjpeg('profile_pic/' . $file1);
 
             $dst_r = ImageCreateTrueColor($targ_w, $targ_h);
             imagecopyresampled($dst_r, $img_r, 0, 0, $_POST['x'], $_POST['y'], $targ_w, $targ_h, $_POST['w'], $_POST['h']);

@@ -55,6 +55,8 @@ $(function () {
 //   
     $('.delete_photo').click(function () {
         $(".new_photo_area img").remove();
+        $('.jcrop-holder').remove();
+        $('.new_photo_area').hide();
         $('.crp_btn').hide();
         $('.upload').show();
         $('.preview_pane').hide();
@@ -98,7 +100,7 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-            $(".new_photo_area").append("<img class='cr' src='" + e.target.result + "' alt='uploaded image' />").show();
+            $(".new_photo_area").append("<img class='cr' src='" + e.target.result + "' alt='uploaded image' style='width:150px'/>").show();
             $('.crp_btn').show();
             $('.upload').hide();
             $('#extension').val(e.target.result);

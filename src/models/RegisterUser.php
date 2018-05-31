@@ -41,7 +41,7 @@ class RegisterUser extends \yii\db\ActiveRecord {
             ['password', 'string', 'min' => 6],
             ['confirm_password', 'compare', 'compareAttribute' => 'password', 'message' => "Passwords don't match"],
             [['firstname', 'lastname', 'email', 'access_token', 'profile_pic'], 'string', 'max' => 255],
-            [['email', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state'], 'required', 'on' => 'user_update'],
+            [['email', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state','role'], 'required', 'on' => 'user_update'],
             ['confirm_password', 'required', 'when' => function ($model) {
                     return $model->password !== '';
                 }, 'whenClient' => "function (attribute, value) {
