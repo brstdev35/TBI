@@ -1,4 +1,4 @@
-#registeruser-status .radio > label {
+#registeruser-status .radio > label,#registeruser-gender .radio > label {
     float: left;
     margin: 10px 0 15px;
     width: 50%;

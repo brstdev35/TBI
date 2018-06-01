@@ -34,14 +34,15 @@ class RegisterUser extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['email', 'password', 'confirm_password', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state','role'], 'required', 'on' => 'user_signup'],
-            [['created', 'updated'], 'integer'],
+            [['email', 'password', 'confirm_password', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state','role','gender','pincode','address','dob'], 'required', 'on' => 'user_signup'],
+            [['created', 'updated','pincode'], 'integer'],
             [['email'], 'validateEmail', 'on' => 'user_signup'],
             [['email'], 'validateupdateEmail', 'on' => 'user_update'],
             ['password', 'string', 'min' => 6],
+            ['pincode', 'string', 'min' => 6,'max' => 6],
             ['confirm_password', 'compare', 'compareAttribute' => 'password', 'message' => "Passwords don't match"],
             [['firstname', 'lastname', 'email', 'access_token', 'profile_pic'], 'string', 'max' => 255],
-            [['email', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state','role'], 'required', 'on' => 'user_update'],
+            [['email', 'status', 'username', 'firstname', 'lastname', 'country', 'city', 'state','role','gender','pincode','address','dob'], 'required', 'on' => 'user_update'],
             ['confirm_password', 'required', 'when' => function ($model) {
                     return $model->password !== '';
                 }, 'whenClient' => "function (attribute, value) {
@@ -69,6 +70,11 @@ class RegisterUser extends \yii\db\ActiveRecord {
             'country' => 'Country',
             'state' => 'State',
             'city' => 'City',
+            'role' => 'Role',
+            'dob' => 'Date of Birth',
+            'pincode' => 'Pincode',
+            'address' => 'Address',
+            'gender' => 'Gender',
         ];
     }
 

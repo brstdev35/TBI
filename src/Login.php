@@ -67,6 +67,10 @@ class Login extends \yii\base\Module {
                         'country' => 'int(11) DEFAULT NULL',
                         'state' => 'int(11) DEFAULT NULL',
                         'city' => 'int(11) DEFAULT NULL',
+                        'gender' => 'int(11) DEFAULT NULL',
+                        'dob' => 'int(11) DEFAULT NULL',
+                        'address' => 'text DEFAULT NULL',
+                        'pincode' => 'int(11) DEFAULT NULL',
                         'created' => 'int(11) unsigned DEFAULT NULL',
                         'updated' => 'int(11) unsigned DEFAULT NULL',
                             ), 'ENGINE=InnoDB DEFAULT CHARSET=utf8'

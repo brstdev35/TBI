@@ -1,4 +1,9 @@
 $(function () {
+    $('#registeruser-dob').datepicker({
+//        endDate: new Date(),
+        format: "dd/mm/yyyy",
+        autoclose: true
+    })
     $('#imgupdate').val(0);
     var imgcheck = $('#imgcheck').val();
     if (imgcheck == 1)

@@ -98,6 +98,7 @@ class ApiController extends \yii\web\Controller {
         $response->format = \yii\web\Response::FORMAT_JSON;
         $employee = RegisterUser::find()->where(['id' => $id])->one();
         $user_pswd = $employee->password;
+        $employee->password = '';
         //echo '<pre>';print_r($employee);die;
         $employee->scenario = 'user_update';
         $employee->attributes = \Yii::$app->request->post();
@@ -456,5 +457,103 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => 'No such City exists');
         }
     }
-
+    public function actionUserInfo($id) {
+        $response = \Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+        $user = RegisterUser::findOne($id);
+        if (!empty($user)) {
+           // foreach ($employee as $user):
+                $country = Country::findOne($user->country);
+                $state = State::findOne($user->state);
+                $city = City::findOne($user->city);
+                $role = Role::findOne($user->role);
+                if ($user->status == 0):
+                    $status = "Inactive";
+                else:
+                    $status = "Active";
+                endif;
+                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email, 'countryname' => $country->countryname, 'statename' => $state->statename, 'cityname' => $city->cityname, 'role' => $role->role, 'status' => $status);
+            //endforeach;
+            return array('status' => true, 'data' => $dataxls);
+        } else {
+            return array('status' => false, 'data' => 'No Such User Found');
+        }
+    }
+    public function actionUserInfobyrole($id) {
+        $response = \Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+        $employee = RegisterUser::find()->where(['role' => $id])->all();
+        if (!empty($employee)) {
+            foreach ($employee as $user):
+                $country = Country::findOne($user->country);
+                $state = State::findOne($user->state);
+                $city = City::findOne($user->city);
+                $role = Role::findOne($user->role);
+                if ($user->status == 0):
+                    $status = "Inactive";
+                else:
+                    $status = "Active";
+                endif;
+                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email, 'countryname' => $country->countryname, 'statename' => $state->statename, 'cityname' => $city->cityname, 'role' => $role->role, 'status' => $status);
+            endforeach;
+            return array('status' => true, 'data' => $dataxls);
+        } else {
+            return array('status' => false, 'data' => 'No Such User Found');
+        }
+    }
+    public function actionUserInfobystatus($id) {
+        $response = \Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+        $employee = RegisterUser::find()->where(['status' => $id])->all();
+        if (!empty($employee)) {
+            foreach ($employee as $user):
+                $country = Country::findOne($user->country);
+                $state = State::findOne($user->state);
+                $city = City::findOne($user->city);
+                $role = Role::findOne($user->role);
+                if ($user->status == 0):
+                    $status = "Inactive";
+                else:
+                    $status = "Active";
+                endif;
+                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email, 'countryname' => $country->countryname, 'statename' => $state->statename, 'cityname' => $city->cityname, 'role' => $role->role, 'status' => $status);
+            endforeach;
+            return array('status' => true, 'data' => $dataxls);
+        } else {
+            return array('status' => false, 'data' => 'No Such User Found');
+        }
+    }
+    public function actionStateListbycountry($id) {
+        $response = \Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+        $states = State::find()->where(['country_id' => $id])->all();
+        $count = State::find()->where(['country_id' => $id])->count();
+        if ($count > 0) {
+            $role = [];
+            foreach ($states as $state):
+                $country = Country::findOne($state->country_id);
+                $dataxls[] = array('id' => $state->id, 'countryname' => $country->countryname, 'statename' => $state->statename);
+            endforeach;
+            return array('status' => true, 'data' => $dataxls);
+        } else {
+            return array('status' => false, 'data' => 'No Data Found');
+        }
+    }
+    public function actionCityListbycountry($id) {
+        $response = \Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+        $cities = City::find()->where(['country_id' => $id])->all();
+        $count = City::find()->where(['country_id' => $id])->count();
+        if ($count > 0) {
+            $role = [];
+            foreach ($cities as $city):
+                $country = Country::findOne($city->country_id);
+                $state = State::findOne($city->state_id);
+                $dataxls[] = array('id' => $city->id, 'countryname' => $country->countryname, 'statename' => $state->statename, 'cityname' => $city->cityname);
+            endforeach;
+            return array('status' => true, 'data' => $dataxls);
+        } else {
+            return array('status' => false, 'data' => 'No Data Found');
+        }
+    }
 }

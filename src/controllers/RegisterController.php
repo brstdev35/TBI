@@ -75,6 +75,7 @@ class RegisterController extends Controller {
         if (Yii::$app->request->post()) {
             $model->load(\Yii::$app->request->post());
             $model->email = trim($model->email, ' ');
+            $model->dob = strtotime($model->dob);
             if (!empty($_POST['profile_pic'])):
                 $model->profile_pic = $_POST['profile_pic'];
             elseif (!empty($_POST['extension'])):
@@ -136,6 +137,7 @@ class RegisterController extends Controller {
         endif;
         if ($model->load(Yii::$app->request->post())) {
             $model->email = trim($model->email, ' ');
+            $model->dob = strtotime($model->dob);
             $postedData = Yii::$app->request->post();
             if (!empty($_POST['profile_pic'])):
                 $model->profile_pic = $_POST['profile_pic'];

@@ -23,36 +23,118 @@ $rolearray = ArrayHelper::map(TBI\Login\models\Role::find()->orderBy('role', 'DE
         <div class="col-md-6">
             <div class="box box-danger">
                 <div class="box-header with-border">
-
-                    <?php if ($model->isNewRecord): ?>
-                        <h3 class="box-title">Personal Details</h3>
-                    <?php else: ?>
-                        <h3 class="box-title">Personal Details</h3>
-                    <?php endif; ?>
+                    <h3 class="box-title">Account Information</h3>
                 </div>
                 <div class="box-body">
                     <?=
-                    $form->field($model, 'firstname')->label('First Name');
+                    $form->field($model, 'email', [
+                        'inputTemplate' => '<div class="input-group"><div class="input-group-addon"><i class="fa fa-envelope"></i></div>{input}</div>'
+                    ])->textInput()->label('Email Address');
                     ?>
                     <?=
-                    $form->field($model, 'lastname');
+                    $form->field($model, 'username', [
+                        'inputTemplate' => '<div class="input-group"><div class="input-group-addon"><i class="fa fa-user"></i></div>{input}</div>'
+                    ]);
                     ?>
                     <?=
-                    $form->field($model, 'username');
+                    $form->field($model, 'password', [
+                        'inputTemplate' => '<div class="input-group"><div class="input-group-addon"><i class="fa fa-lock"></i></div>{input}</div>',
+                    ])->passwordInput(['value' => ''])->label('Password');
                     ?>
                     <?=
-                    $form->field($model, 'email')->textInput()->label('Email Address');
-                    ?>
-                    <?=
-                    $form->field($model, 'password')->passwordInput(['value' => ''])->label('Password');
-                    ?>
-                    <?=
-                    $form->field($model, 'confirm_password')->passwordInput(['value' => ''])->label('Confirm Password');
+                    $form->field($model, 'confirm_password', [
+                        'inputTemplate' => '<div class="input-group"><div class="input-group-addon"><i class="fa fa-lock"></i></div>{input}</div>',
+                    ])->passwordInput(['value' => ''])->label('Confirm Password');
                     ?>
                     <?= $form->field($model, 'status')->radioList(array(1 => 'Active', 0 => 'Inactive'))->label('Status'); ?>
                     <?=
                     $form->field($model, 'role')->dropDownList($rolearray, ['prompt' => 'Select Role']
                     )->label('Role')
+                    ?>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Address</h3>
+                </div>
+                <div class="box-body">
+                    <?= $form->field($model, 'address')->textarea(['rows' => 5]); ?>
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <?=
+                            $form->field($model, 'country')->dropDownList(
+                                    $countryarray, ['prompt' => 'Select Country']
+                            )->label('Country');
+                            ?>
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <?php if ($model->isNewrecord): ?>
+                                <?=
+                                $form->field($model, 'state')->dropDownList(['' => 'Select State']
+                                )->label('State');
+                                ?>
+                            <?php else: ?>
+                                <?php $states = ArrayHelper::map(TBI\Login\models\State::find()->where(['id' => $model->state])->orderBy('statename', 'DESC')->all(), 'id', 'statename'); ?>
+                                <?=
+                                $form->field($model, 'state')->dropDownList($states, ['' => 'Select State']
+                                )->label('State');
+                                ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <?php if ($model->isNewrecord): ?>
+                                <?=
+                                $form->field($model, 'city')->dropDownList(['' => 'Select City']
+                                )->label('City');
+                                ?>
+                            <?php else: ?>
+                                <?php $states = ArrayHelper::map(TBI\Login\models\city::find()->where(['id' => $model->city])->orderBy('cityname', 'DESC')->all(), 'id', 'cityname'); ?>
+                                <?=
+                                $form->field($model, 'city')->dropDownList($states, ['' => 'Select City']
+                                )->label('City');
+                                ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <?=
+                            $form->field($model, 'pincode', [
+                                'inputTemplate' => '<div class="input-group"><div class="input-group-addon"><i class="fa fa-address-book-o"></i></div>{input}</div>',
+                            ])->label('Pincode');
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Personal Information</h3>
+                </div>
+                <div class="box-body">
+                    <?=
+                    $form->field($model, 'firstname', [
+                        'inputTemplate' => '<div class="input-group"><div class="input-group-addon"><i class="fa fa-user"></i></div>{input}</div>'
+                    ])->label('First Name');
+                    ?>
+                    <?=
+                    $form->field($model, 'lastname', [
+                        'inputTemplate' => '<div class="input-group"><div class="input-group-addon"><i class="fa fa-user"></i></div>{input}</div>'
+                    ]);
+                    ?>
+                    <?= $form->field($model, 'gender')->radioList(array(1 => 'Male', 0 => 'Female'))->label('Gender'); ?>
+                    <?php
+                        if ($model->dob) {
+                            $startdate = $model->dob;
+                            $model->dob = date('m/d/Y', $startdate);
+                        }
+                        ?>
+                    <?=
+                    $form->field($model, 'dob', [
+                        'inputTemplate' => '<div class="input-group"><div class="input-group-addon"><i class="fa fa-calendar"></i></div>{input}</div>'
+                    ]);
                     ?>
                     <?php
                     if ((!empty($model->profile_pic))) {
@@ -126,49 +208,7 @@ $rolearray = ArrayHelper::map(TBI\Login\models\Role::find()->orderBy('role', 'DE
                                         </div>-->
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="box box-success">
-                <div class="box-header with-border">
 
-                    <?php if ($model->isNewRecord): ?>
-                        <h3 class="box-title">Address</h3>
-                    <?php else: ?>
-                        <h3 class="box-title">Address</h3>
-                    <?php endif; ?>
-                </div>
-                <div class="box-body">
-                    <?=
-                    $form->field($model, 'country')->dropDownList(
-                            $countryarray, ['prompt' => 'Select Country']
-                    )->label('Country');
-                    ?>
-                    <?php if ($model->isNewrecord): ?>
-                        <?=
-                        $form->field($model, 'state')->dropDownList(['' => 'Select State']
-                        )->label('State');
-                        ?>
-                    <?php else: ?>
-                        <?php $states = ArrayHelper::map(TBI\Login\models\State::find()->where(['id' => $model->state])->orderBy('statename', 'DESC')->all(), 'id', 'statename'); ?>
-                        <?=
-                        $form->field($model, 'state')->dropDownList($states, ['' => 'Select State']
-                        )->label('State');
-                        ?>
-                    <?php endif; ?>
-                    <?php if ($model->isNewrecord): ?>
-                        <?=
-                        $form->field($model, 'city')->dropDownList(['' => 'Select City']
-                        )->label('City');
-                        ?>
-                    <?php else: ?>
-                        <?php $states = ArrayHelper::map(TBI\Login\models\city::find()->where(['id' => $model->city])->orderBy('cityname', 'DESC')->all(), 'id', 'cityname'); ?>
-                        <?=
-                        $form->field($model, 'city')->dropDownList($states, ['' => 'Select City']
-                        )->label('City');
-                        ?>
-                    <?php endif; ?>
-                </div>
-            </div>
         </div>
     </div>
     <div class="form-group">
