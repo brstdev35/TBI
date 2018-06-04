@@ -60,7 +60,7 @@ class Login extends \yii\base\Module {
                         'username' => 'varchar(255) DEFAULT NULL',
                         'email' => 'varchar(255) DEFAULT NULL',
                         'password' => 'varchar(255) DEFAULT NULL',
-                        'access_token' => 'varchar(255) DEFAULT NULL',
+                        'password_reset_token' => 'varchar(255) DEFAULT NULL',
                         'profile_pic' => 'varchar(255) DEFAULT NULL',
                         'status' => 'int(11) DEFAULT NULL',
                         'role' => 'int(11) DEFAULT NULL',
@@ -138,6 +138,14 @@ class Login extends \yii\base\Module {
             $gen->tableName = $this->table;
             $gen->generateQuery = true;
             $gen->ns = 'TBI\Login\models';
+            $test = $gen->generate();
+            $model = $this->save($test);
+        endif;
+        if (!(class_exists('common\models\RegisterUser', true))):
+            $gen = new Generator;
+            $gen->tableName = $this->table;
+            $gen->generateQuery = true;
+            $gen->ns = 'common\models';
             $test = $gen->generate();
             $model = $this->save($test);
         endif;

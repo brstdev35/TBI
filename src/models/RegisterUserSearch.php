@@ -69,7 +69,6 @@ class RegisterUserSearch extends RegisterUser
             ->andFilterWhere(['like', 'lastname', $this->lastname])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'password', $this->password])
-            ->andFilterWhere(['like', 'access_token', $this->access_token])
             ->andFilterWhere(['like', 'profile_pic', $this->profile_pic]);
 
         return $dataProvider;
