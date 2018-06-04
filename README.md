@@ -48,4 +48,88 @@ return [
         ],
     ],
 ]; 
+```
+```php
+2.To Generate Table in database.
+<website url  or localhost path to directory>/login/register/generate-table
 
+3.To add user
+<website url  or localhost path to directory>/login/register/create
+
+4.Update User
+<website url  or localhost path to directory>/login/register/update?id=<:id>
+
+5.User listing
+<website url  or localhost path to directory>/login/register/index
+
+6.Country Listing
+<website url  or localhost path to directory>/login/country/index
+
+7.State Listing
+<website url  or localhost path to directory>/login/state/index
+
+8.City Listing
+<website url  or localhost path to directory>/login/city/index
+
+9.Role Listing
+<website url  or localhost path to directory>/login/role/index
+```
+
+API Lists
+1.Role API's 
+   
+    <website url  or localhost path to directory>/login/api/add-role
+
+    <website url  or localhost path to directory>/login/api/update-role?id=<:id>
+ 
+    <website url  or localhost path to directory>/login/api/role-list
+
+    <website url  or localhost path to directory>/login/api/delete-role?id=<:id>
+
+2. Country API's  
+
+    <website url  or localhost path to directory>/login/api/add-country
+
+    <website url  or localhost path to directory>/login/api/update-country?id=<:id>
+ 
+    <website url  or localhost path to directory>/login/api/country-list
+
+    <website url  or localhost path to directory>/login/api/delete-country?id=<:id>
+
+3. State API's
+
+    <website url  or localhost path to directory>/login/api/add-state
+
+    <website url  or localhost path to directory>/login/api/update-state?id=<:id>
+ 
+    <website url  or localhost path to directory>/login/api/state-list
+
+    <website url  or localhost path to directory>/login/api/delete-state?id=<:id>
+
+    <website url  or localhost path to directory>/login/api/state-listbycountry?id=<:id>
+
+4. City API's
+    
+    <website url  or localhost path to directory>/login/api/add-city
+
+    <website url  or localhost path to directory>/login/api/update-city?id=<:id>
+ 
+    <website url  or localhost path to directory>/login/api/city-list
+
+    <website url  or localhost path to directory>/login/api/delete-city?id=<:id>
+
+    <website url  or localhost path to directory>/login/api/city-listbycountry?id=<:id>
+
+5. User Information API"s
+
+    <website url  or localhost path to directory>/login/api/register
+
+    <website url  or localhost path to directory>/login/api/user-infobystatus?id=<:id>
+
+    <website url  or localhost path to directory>/login/api/user-infobyrole?id=<:id>
+
+    <website url  or localhost path to directory>/login/api/user-info?id=<:id>
+
+    <website url  or localhost path to directory>/login/api/list
+
+    <website url  or localhost path to directory>/login/api/delete?id=<:id>
