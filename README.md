@@ -75,6 +75,7 @@ return [
 <website url  or localhost path to directory>/login/role/index
 ```
 
+```php
 API Lists
 1.Role API's 
    
@@ -133,3 +134,4 @@ API Lists
     <website url  or localhost path to directory>/login/api/list
 
     <website url  or localhost path to directory>/login/api/delete?id=<:id>
+```
