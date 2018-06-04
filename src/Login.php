@@ -141,14 +141,14 @@ class Login extends \yii\base\Module {
             $test = $gen->generate();
             $model = $this->save($test);
         endif;
-        if (!(class_exists('common\models\RegisterUser', true))):
-            $gen = new Generator;
-            $gen->tableName = $this->table;
-            $gen->generateQuery = true;
-            $gen->ns = 'common\models';
-            $test = $gen->generate();
-            $model = $this->save($test);
-        endif;
+//        if (!(class_exists('common\models\RegisterUser', true))):
+//            $gen = new Generator;
+//            $gen->tableName = $this->table;
+//            $gen->generateQuery = true;
+//            $gen->ns = 'common\models';
+//            $test = $gen->generate();
+//            $model = $this->save($test);
+//        endif;
         //Generating Role Model
         if (!(class_exists('TBI\Login\models\Role', true))):
             $gen = new Generator;
