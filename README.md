@@ -78,13 +78,22 @@ Role Listing
 
 ```php
 API Lists
+
 Role API's 
    
+    Adding Role
+    
     <website url  or localhost path to directory>/login/api/add-role
 
+    Updating Role
+
     <website url  or localhost path to directory>/login/api/update-role?id=<:id>
- 
+    
+    Role List
+    
     <website url  or localhost path to directory>/login/api/role-list
+    
+    Delete Role
 
     <website url  or localhost path to directory>/login/api/delete-role?id=<:id>
 
@@ -136,3 +145,7 @@ User Information API's
 
     <website url  or localhost path to directory>/login/api/delete?id=<:id>
 ```
+
+Login API's
+
+    
