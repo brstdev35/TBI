@@ -140,7 +140,7 @@ class RegisterUser extends \yii\db\ActiveRecord {
                         ->compose()
                         ->setFrom([Yii::$app->params['supportEmail'] => 'password reset'])
                         ->setTo($email)
-                        ->setSubject('Password reset for test')
+                        ->setSubject('Password reset')
                         ->setHtmlBody($html)
                         ->send();
     }
