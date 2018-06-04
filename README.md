@@ -342,9 +342,11 @@ Login API's
         }
     }
 
-
+    API Link
     <website url  or localhost path to directory>/login/api/login
 
+```
+```php
 Password Reset API's
 
     <website url  or localhost path to directory>/login/api/request-password-reset?email=<:email>
