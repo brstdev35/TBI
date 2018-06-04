@@ -675,6 +675,7 @@ class ApiController extends \yii\web\Controller {
      */
     public function actionLogin() {
         if (!(\Yii::$app->user->isGuest)) {
+            return array('status' => true, 'data' => 'Already Logged In.');
         }
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
