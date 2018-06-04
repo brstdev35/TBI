@@ -2,7 +2,7 @@
 
 ## Installation
 
-Before installing this extension ,please install admin lte through composer
+Before installing this Module ,please install admin lte through composer
 
 Either run:
 
@@ -81,10 +81,26 @@ Role Listing
 
 API Lists
 
+
+User Information API's
+
+    <website url  or localhost path to directory>/login/api/register(firstname,lastname,email,password)
+
+    <website url  or localhost path to directory>/login/api/user-infobystatus?id=<:id>
+
+    <website url  or localhost path to directory>/login/api/user-infobyrole?id=<:id>
+
+    <website url  or localhost path to directory>/login/api/user-info?id=<:id>
+
+    <website url  or localhost path to directory>/login/api/list
+
+    <website url  or localhost path to directory>/login/api/delete?id=<:id>
+    
+    
 Role API's 
    
     
-    <website url  or localhost path to directory>/login/api/add-role
+    <website url  or localhost path to directory>/login/api/add-role(role)
 
    <website url  or localhost path to directory>/login/api/update-role?id=<:id>
     
@@ -94,7 +110,7 @@ Role API's
 
 Country API's  
 
-    <website url  or localhost path to directory>/login/api/add-country
+    <website url  or localhost path to directory>/login/api/add-country(countryname)
 
     <website url  or localhost path to directory>/login/api/update-country?id=<:id>
  
@@ -104,7 +120,7 @@ Country API's
 
 State API's
 
-    <website url  or localhost path to directory>/login/api/add-state
+    <website url  or localhost path to directory>/login/api/add-state(countryname,statename)
 
     <website url  or localhost path to directory>/login/api/update-state?id=<:id>
  
@@ -116,7 +132,7 @@ State API's
 
 City API's
     
-    <website url  or localhost path to directory>/login/api/add-city
+    <website url  or localhost path to directory>/login/api/add-city(countryname,statename,cityname)
 
     <website url  or localhost path to directory>/login/api/update-city?id=<:id>
  
@@ -125,20 +141,6 @@ City API's
     <website url  or localhost path to directory>/login/api/delete-city?id=<:id>
 
     <website url  or localhost path to directory>/login/api/city-listbycountry?id=<:id>
-
-User Information API's
-
-    <website url  or localhost path to directory>/login/api/register
-
-    <website url  or localhost path to directory>/login/api/user-infobystatus?id=<:id>
-
-    <website url  or localhost path to directory>/login/api/user-infobyrole?id=<:id>
-
-    <website url  or localhost path to directory>/login/api/user-info?id=<:id>
-
-    <website url  or localhost path to directory>/login/api/list
-
-    <website url  or localhost path to directory>/login/api/delete?id=<:id>
 ```
 ```php
 
