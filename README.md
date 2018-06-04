@@ -122,7 +122,7 @@ City API's
 
     <website url  or localhost path to directory>/login/api/city-listbycountry?id=<:id>
 
-User Information API"s
+User Information API's
 
     <website url  or localhost path to directory>/login/api/register
 
