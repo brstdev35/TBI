@@ -50,34 +50,35 @@ return [
 ]; 
 ```
 ```php
-2.To Generate Table in database.
+
+To Generate Table in database.
 <website url  or localhost path to directory>/login/register/generate-table
 
-3.To add user
+To add user
 <website url  or localhost path to directory>/login/register/create
 
-4.Update User
+Update User
 <website url  or localhost path to directory>/login/register/update?id=<:id>
 
-5.User listing
+User listing
 <website url  or localhost path to directory>/login/register/index
 
-6.Country Listing
+Country Listing
 <website url  or localhost path to directory>/login/country/index
 
-7.State Listing
+State Listing
 <website url  or localhost path to directory>/login/state/index
 
-8.City Listing
+City Listing
 <website url  or localhost path to directory>/login/city/index
 
-9.Role Listing
+Role Listing
 <website url  or localhost path to directory>/login/role/index
 ```
 
 ```php
 API Lists
-1.Role API's 
+Role API's 
    
     <website url  or localhost path to directory>/login/api/add-role
 
@@ -87,7 +88,7 @@ API Lists
 
     <website url  or localhost path to directory>/login/api/delete-role?id=<:id>
 
-2. Country API's  
+Country API's  
 
     <website url  or localhost path to directory>/login/api/add-country
 
@@ -97,7 +98,7 @@ API Lists
 
     <website url  or localhost path to directory>/login/api/delete-country?id=<:id>
 
-3. State API's
+State API's
 
     <website url  or localhost path to directory>/login/api/add-state
 
@@ -109,7 +110,7 @@ API Lists
 
     <website url  or localhost path to directory>/login/api/state-listbycountry?id=<:id>
 
-4. City API's
+City API's
     
     <website url  or localhost path to directory>/login/api/add-city
 
@@ -121,7 +122,7 @@ API Lists
 
     <website url  or localhost path to directory>/login/api/city-listbycountry?id=<:id>
 
-5. User Information API"s
+User Information API"s
 
     <website url  or localhost path to directory>/login/api/register
 
