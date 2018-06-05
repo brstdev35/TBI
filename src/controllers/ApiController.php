@@ -84,13 +84,13 @@ class ApiController extends \yii\web\Controller {
         $count = RegisterUser::find()->count();
         if ($count > 0) {
             foreach ($employee as $user):
-                if (empty($user->country)):
+                if (!empty($user->country)):
                     $country = Country::findOne($user->country);
                     $countryname = $country->countryname;
                 else:
                     $countryname = 'NA';
                 endif;
-                if (empty($user->state)):
+                if (!empty($user->state)):
                     $state = State::findOne($user->state);
                     $statename = $state->statename;
                 else:
@@ -577,13 +577,13 @@ class ApiController extends \yii\web\Controller {
         $user = RegisterUser::findOne($id);
         if (!empty($user)) {
             // foreach ($employee as $user):
-            if (empty($user->country)):
+            if (!empty($user->country)):
                     $country = Country::findOne($user->country);
                     $countryname = $country->countryname;
                 else:
                     $countryname = 'NA';
                 endif;
-                if (empty($user->state)):
+                if (!empty($user->state)):
                     $state = State::findOne($user->state);
                     $statename = $state->statename;
                 else:
@@ -633,13 +633,13 @@ class ApiController extends \yii\web\Controller {
         $employee = RegisterUser::find()->where(['role' => $id])->all();
         if (!empty($employee)) {
             foreach ($employee as $user):
-                if (empty($user->country)):
+                if (!empty($user->country)):
                     $country = Country::findOne($user->country);
                     $countryname = $country->countryname;
                 else:
                     $countryname = 'NA';
                 endif;
-                if (empty($user->state)):
+                if (!empty($user->state)):
                     $state = State::findOne($user->state);
                     $statename = $state->statename;
                 else:
@@ -689,13 +689,13 @@ class ApiController extends \yii\web\Controller {
         $employee = RegisterUser::find()->where(['status' => $id])->all();
         if (!empty($employee)) {
             foreach ($employee as $user):
-                if (empty($user->country)):
+                if (!empty($user->country)):
                     $country = Country::findOne($user->country);
                     $countryname = $country->countryname;
                 else:
                     $countryname = 'NA';
                 endif;
-                if (empty($user->state)):
+                if (!empty($user->state)):
                     $state = State::findOne($user->state);
                     $statename = $state->statename;
                 else:
