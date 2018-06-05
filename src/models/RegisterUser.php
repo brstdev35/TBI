@@ -123,7 +123,7 @@ class RegisterUser extends \yii\db\ActiveRecord {
             return false;
         }
         $user->password = Yii::$app->security->generateRandomString();
-        $new_pass = $user->password;
+        $new_pass = substr($user->password, 0, 6);
         $user->setPassword($new_pass);
         if (!$user->save(false)) {
             return false;
