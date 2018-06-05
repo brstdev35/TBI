@@ -18,9 +18,11 @@ class ApiController extends \yii\web\Controller {
     public function actionIndex() {
         echo 'this is test';
     }
+
     /*
      * Api Add Full User Info
      */
+
     public function actionCreate() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -70,9 +72,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $employee->getErrors());
         }
     }
+
     /*
      * Api User Listing
      */
+
     public function actionList() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -80,25 +84,56 @@ class ApiController extends \yii\web\Controller {
         $count = RegisterUser::find()->count();
         if ($count > 0) {
             foreach ($employee as $user):
-                $country = Country::findOne($user->country);
-                $state = State::findOne($user->state);
-                $city = City::findOne($user->city);
-                $role = Role::findOne($user->role);
-                if ($user->status == 0):
-                    $status = "Inactive";
+                if (empty($user->country)):
+                    $country = Country::findOne($user->country);
+                    $countryname = $country->countryname;
                 else:
-                    $status = "Active";
+                    $countryname = 'NA';
                 endif;
-                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email, 'countryname' => $country->countryname, 'statename' => $state->statename, 'cityname' => $city->cityname, 'role' => $role->role, 'status' => $status);
+                if (empty($user->state)):
+                    $state = State::findOne($user->state);
+                    $statename = $state->statename;
+                else:
+                    $statename = 'NA';
+                endif;
+                if (!empty($user->city)):
+                    $city = City::findOne($user->city);
+                    $cityname = $city->cityname;
+                else:
+                    $cityname = 'NA';
+                endif;
+                if (!empty($user->role)):
+                    $role = Role::findOne($user->role);
+                    $rolename = $role->role;
+                else:
+                    $rolename = 'NA';
+                endif;
+                if (!empty($user->status)):
+                    if ($user->status == 0):
+                        $status = "Inactive";
+                    else:
+                        $status = "Active";
+                    endif;
+                else:
+                    $status = 'NA';
+                endif;
+                if (!empty($user->dob)):
+                    $dob = date('m/d/Y', $user->dob);
+                else:
+                    $dob = 'NA';
+                endif;
+                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email,'DOB' => $dob, 'countryname' => $countryname, 'statename' => $statename, 'cityname' => $cityname, 'role' => $rolename, 'status' => $status);
             endforeach;
             return array('status' => true, 'data' => $dataxls);
         } else {
             return array('status' => false, 'data' => 'No Data Found');
         }
     }
+
     /*
      * Api Update Complete User data update by Id
      */
+
     public function actionUpdate($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -166,9 +201,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $employee->getErrors());
         }
     }
+
     /*
      * Api Delete User
      */
+
     public function actionDelete($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -180,9 +217,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $employee->getErrors());
         }
     }
+
     /*
      * Api add country
      */
+
     public function actionAddCountry() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -198,9 +237,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $country->getErrors());
         }
     }
+
     /*
      * Api Country update by id
      */
+
     public function actionUpdateCountry($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -215,10 +256,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $country->getErrors());
         }
     }
-    
+
     /*
      * Api Country Listing
      */
+
     public function actionCountryList() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -230,10 +272,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'data' => 'No Data Found');
         }
     }
-    
+
     /*
      * Api delete Country by id
      */
+
     public function actionDeleteCountry($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -245,10 +288,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => 'No such Country exists');
         }
     }
-    
+
     /*
      * Api Add role
      */
+
     public function actionAddRole() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -264,10 +308,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $role->getErrors());
         }
     }
-    
+
     /*
      * Api Update Role by id
      */
+
     public function actionUpdateRole($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -282,10 +327,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $role->getErrors());
         }
     }
-    
+
     /*
      * Api Role listing
      */
+
     public function actionRoleList() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -297,10 +343,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'data' => 'No Data Found');
         }
     }
-    
+
     /*
      * Api delete Role by id
      */
+
     public function actionDeleteRole($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -312,10 +359,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => 'No such Role exists');
         }
     }
-    
+
     /*
      * Api add state
      */
+
     public function actionAddState() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -339,10 +387,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $state->getErrors());
         }
     }
-    
+
     /*
      * Api update State by id
      */
+
     public function actionUpdateState($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -365,10 +414,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $state->getErrors());
         }
     }
-    
+
     /*
      * Api State List
      */
+
     public function actionStateList() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -385,10 +435,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'data' => 'No Data Found');
         }
     }
-    
+
     /*
      * Api delete State by id
      */
+
     public function actionDeleteState($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -400,9 +451,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => 'No such State exists');
         }
     }
+
     /*
      * Api Add City
      */
+
     public function actionAddCity() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -433,9 +486,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $city->getErrors());
         }
     }
+
     /*
      * Api Update City
      */
+
     public function actionUpdateCity($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -473,10 +528,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $city->getErrors());
         }
     }
-    
+
     /*
      * Api all city list
      */
+
     public function actionCityList() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -494,9 +550,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'data' => 'No Data Found');
         }
     }
+
     /*
      * Api delete city by id
      */
+
     public function actionDeleteCity($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -508,84 +566,179 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => 'No such City exists');
         }
     }
+
     /*
      * Api User info By userid
      */
+
     public function actionUserInfo($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
         $user = RegisterUser::findOne($id);
         if (!empty($user)) {
             // foreach ($employee as $user):
-            $country = Country::findOne($user->country);
-            $state = State::findOne($user->state);
-            $city = City::findOne($user->city);
-            $role = Role::findOne($user->role);
-            if ($user->status == 0):
-                $status = "Inactive";
-            else:
-                $status = "Active";
-            endif;
-            $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email, 'countryname' => $country->countryname, 'statename' => $state->statename, 'cityname' => $city->cityname, 'role' => $role->role, 'status' => $status);
+            if (empty($user->country)):
+                    $country = Country::findOne($user->country);
+                    $countryname = $country->countryname;
+                else:
+                    $countryname = 'NA';
+                endif;
+                if (empty($user->state)):
+                    $state = State::findOne($user->state);
+                    $statename = $state->statename;
+                else:
+                    $statename = 'NA';
+                endif;
+                if (!empty($user->city)):
+                    $city = City::findOne($user->city);
+                    $cityname = $city->cityname;
+                else:
+                    $cityname = 'NA';
+                endif;
+                if (!empty($user->role)):
+                    $role = Role::findOne($user->role);
+                    $rolename = $role->role;
+                else:
+                    $rolename = 'NA';
+                endif;
+                if (!empty($user->status)):
+                    if ($user->status == 0):
+                        $status = "Inactive";
+                    else:
+                        $status = "Active";
+                    endif;
+                else:
+                    $status = 'NA';
+                endif;
+                if (!empty($user->dob)):
+                    $dob = date('m/d/Y', $user->dob);
+                else:
+                    $dob = 'NA';
+                endif;
+                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email,'DOB' => $dob, 'countryname' => $countryname, 'statename' => $statename, 'cityname' => $cityname, 'role' => $rolename, 'status' => $status);
             //endforeach;
             return array('status' => true, 'data' => $dataxls);
         } else {
             return array('status' => false, 'data' => 'No Such User Found');
         }
     }
+
     /*
      * User info By role id
      */
+
     public function actionUserInfobyrole($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
         $employee = RegisterUser::find()->where(['role' => $id])->all();
         if (!empty($employee)) {
             foreach ($employee as $user):
-                $country = Country::findOne($user->country);
-                $state = State::findOne($user->state);
-                $city = City::findOne($user->city);
-                $role = Role::findOne($user->role);
-                if ($user->status == 0):
-                    $status = "Inactive";
+                if (empty($user->country)):
+                    $country = Country::findOne($user->country);
+                    $countryname = $country->countryname;
                 else:
-                    $status = "Active";
+                    $countryname = 'NA';
                 endif;
-                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email, 'countryname' => $country->countryname, 'statename' => $state->statename, 'cityname' => $city->cityname, 'role' => $role->role, 'status' => $status);
+                if (empty($user->state)):
+                    $state = State::findOne($user->state);
+                    $statename = $state->statename;
+                else:
+                    $statename = 'NA';
+                endif;
+                if (!empty($user->city)):
+                    $city = City::findOne($user->city);
+                    $cityname = $city->cityname;
+                else:
+                    $cityname = 'NA';
+                endif;
+                if (!empty($user->role)):
+                    $role = Role::findOne($user->role);
+                    $rolename = $role->role;
+                else:
+                    $rolename = 'NA';
+                endif;
+                if (!empty($user->status)):
+                    if ($user->status == 0):
+                        $status = "Inactive";
+                    else:
+                        $status = "Active";
+                    endif;
+                else:
+                    $status = 'NA';
+                endif;
+                if (!empty($user->dob)):
+                    $dob = date('m/d/Y', $user->dob);
+                else:
+                    $dob = 'NA';
+                endif;
+                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email,'DOB' => $dob, 'countryname' => $countryname, 'statename' => $statename, 'cityname' => $cityname, 'role' => $rolename, 'status' => $status);
             endforeach;
             return array('status' => true, 'data' => $dataxls);
         } else {
             return array('status' => false, 'data' => 'No Such User Found');
         }
     }
+
     /*
      * Api User Info by Status
      */
+
     public function actionUserInfobystatus($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
         $employee = RegisterUser::find()->where(['status' => $id])->all();
         if (!empty($employee)) {
             foreach ($employee as $user):
-                $country = Country::findOne($user->country);
-                $state = State::findOne($user->state);
-                $city = City::findOne($user->city);
-                $role = Role::findOne($user->role);
-                if ($user->status == 0):
-                    $status = "Inactive";
+                if (empty($user->country)):
+                    $country = Country::findOne($user->country);
+                    $countryname = $country->countryname;
                 else:
-                    $status = "Active";
+                    $countryname = 'NA';
                 endif;
-                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email, 'countryname' => $country->countryname, 'statename' => $state->statename, 'cityname' => $city->cityname, 'role' => $role->role, 'status' => $status);
+                if (empty($user->state)):
+                    $state = State::findOne($user->state);
+                    $statename = $state->statename;
+                else:
+                    $statename = 'NA';
+                endif;
+                if (!empty($user->city)):
+                    $city = City::findOne($user->city);
+                    $cityname = $city->cityname;
+                else:
+                    $cityname = 'NA';
+                endif;
+                if (!empty($user->role)):
+                    $role = Role::findOne($user->role);
+                    $rolename = $role->role;
+                else:
+                    $rolename = 'NA';
+                endif;
+                if (!empty($user->status)):
+                    if ($user->status == 0):
+                        $status = "Inactive";
+                    else:
+                        $status = "Active";
+                    endif;
+                else:
+                    $status = 'NA';
+                endif;
+                if (!empty($user->dob)):
+                    $dob = date('m/d/Y', $user->dob);
+                else:
+                    $dob = 'NA';
+                endif;
+                $dataxls[] = array('id' => $user->id, 'firstname' => $user->firstname, 'lastname' => $user->lastname, 'username' => $user->username, 'email' => $user->email,'DOB' => $dob, 'countryname' => $countryname, 'statename' => $statename, 'cityname' => $cityname, 'role' => $rolename, 'status' => $status);
             endforeach;
             return array('status' => true, 'data' => $dataxls);
         } else {
             return array('status' => false, 'data' => 'No Such User Found');
         }
     }
+
     /*
      * Api State list by Country id
      */
+
     public function actionStateListbycountry($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -602,9 +755,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'data' => 'No Data Found');
         }
     }
+
     /*
      * Api City list by Country id
      */
+
     public function actionCityListbycountry($id) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -622,11 +777,11 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'data' => 'No Data Found');
         }
     }
-    
+
     /*
      * Password reset Api using Email
      */
-    
+
     public function actionRequestPasswordReset($email) {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -643,11 +798,13 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $model->getErrors());
         }
     }
+
     /*
      * 
      * Register User Api
      * 
      */
+
     public function actionRegister() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
@@ -669,16 +826,18 @@ class ApiController extends \yii\web\Controller {
             return array('status' => false, 'error' => $employee->getErrors());
         }
     }
+
     /*
      * Login Api
      * 
      */
+
     public function actionLogin() {
-        if (!(\Yii::$app->user->isGuest)) {
-            return array('status' => true, 'data' => 'Already Logged In.');
-        }
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
+        if (!(\Yii::$app->user->isGuest)) {
+            return array('status' => true, 'data' => 'already logged in.');
+        }
         $model = new LoginForm();
         $model->attributes = \Yii::$app->request->post();
         if ($model->login()) {
@@ -687,17 +846,23 @@ class ApiController extends \yii\web\Controller {
             return array('status' => true, 'data' => $model->getErrors());
         }
     }
-    
+
     /*
      * Logout Api
      * 
      */
-    public function actionLogout()
-    {
+
+    public function actionLogout() {
         $response = \Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
-        if(\Yii::$app->user->logout()):
+        if (!(\Yii::$app->user->isGuest)) {
+        if (\Yii::$app->user->logout()):
             return array('status' => true, 'data' => 'logout Successfully.');
         endif;
+        }
+        else{
+            return array('status' => true, 'data' => 'Please login first.');
+        }
     }
+
 }
