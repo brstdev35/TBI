@@ -95,7 +95,7 @@ $dob = date('m/d/Y', $model->dob);
                             <b>Location</b> <a class="pull-right"><?= $statename; ?>,<?= $countryname; ?></a>
                         </li>
                         <li class="list-group-item">
-                            <b>Location</b> <a class="pull-right"><?= $model->pincode; ?></a>
+                            <b>Pin-Code</b> <a class="pull-right"><?= $model->pincode; ?></a>
                         </li>
                     </ul>
                     
