@@ -31,7 +31,9 @@ class RegisterController extends Controller {
             ],
         ];
     }
-
+    public function actionGenerateTable(){
+        return 'table created';
+    }
     /**
      * Lists all RegisterUser models.
      * @return mixed
